@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Load the input image.
-image_path = '/Users/jordano/Library/Mobile Documents/com~apple~CloudDocs/project/2023mech/pose/image5.jpeg'
+image_path = 'data/image1.jpeg'
 image = tf.io.read_file(image_path)
 image = tf.compat.v1.image.decode_jpeg(image)
 image = tf.expand_dims(image, axis=0)
