@@ -5,24 +5,26 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 class PoseEstimator :
-    def __init__(self, image_path) :
-        # Load the input image.
-        self.image = tf.io.read_file(image_path)
-        self.image = tf.compat.v1.image.decode_jpeg(self.image)
-        self.image = tf.expand_dims(self.image, axis=0)
-        # Resize and pad the image to keep the aspect ratio and fit the expected size.
-        self.image = tf.cast(tf.image.resize_with_pad(self.image, 256, 256), dtype=tf.int32)
-
+    def __init__(self) :
         # Download the model from TF Hub.
+        print("Loading the model...")
         self.model = hub.load("https://tfhub.dev/google/movenet/singlepose/thunder/4")
         self.model = self.model.signatures['serving_default']
+        print("Loading model is done.")
 
+    def load_image(self, image) :
+        # Load the input image.
+        self.image = image
+        self.input = tf.convert_to_tensor(self.image, dtype=tf.int32)
+        self.input = tf.image.resize(self.input, [256,256])
+        self.input = tf.cast(self.input, dtype= tf.int32)
+        self.input = tf.reshape(self.input, (1,256,256,3))
 
     def inference(self) : 
         # returns the (height of spine, width of shoulder) tuple
 
         # Run model inference.
-        outputs = self.model(self.image)
+        outputs = self.model(self.input)
         
         # Output is a [1, 1, 17, 3] tensor.
         keypoints = outputs['output_0']
