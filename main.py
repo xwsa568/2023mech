@@ -12,7 +12,7 @@ camera = webcam.WebcamCamera(1)
 pose = pose_estimator.PoseEstimator()
 img = camera.take_photo()
 
-pastData = 1
+pastData = 1 #initial position
 
 """
 while True:
