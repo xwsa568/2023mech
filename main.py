@@ -12,7 +12,7 @@ camera = webcam.WebcamCamera(1)
 pose = pose_estimator.PoseEstimator()
 img = camera.take_photo()
 
-pastData = 1 #initial position
+curData = 1 #initial position
 
 """
 while True:
@@ -28,7 +28,7 @@ cv2.destroyAllWindows()
 print("on main.py, type(img) and np.shape(img) : ", type(img), np.shape(img))
 
 pose.load_image(img)
-curData = pose.inference()
+newData = pose.inference()
 
-sendNum(curData - pastData)
-pastData = curData
+sendNum(curData - newData)
+newData = curData
